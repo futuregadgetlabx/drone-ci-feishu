@@ -1,0 +1,19 @@
+kind: pipeline
+name: build
+steps:
+  - name: build&push docker image
+    image: plugins/docker
+    settings:
+      repo: cruii/drone-feishu
+      dockerfile: Dockerfile
+      tags: latest
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+
+trigger:
+  event:
+    - push
+  branch:
+    - master
