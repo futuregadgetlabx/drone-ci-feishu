@@ -7,7 +7,9 @@ steps:
     settings:
       repo: cruii/drone-feishu
       dockerfile: Dockerfile
-      tags: latest
+      tags:
+       - latest
+       - ${DRONE_BUILD_TAG}
       username:
         from_secret: docker_username
       password:
