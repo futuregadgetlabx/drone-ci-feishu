@@ -77,6 +77,7 @@ func (p Plugin) Exec() error {
 		AppSecret: p.Feishu.AppSecret,
 	}
 	reqBody, _ := json.Marshal(tokenReq)
+	fmt.Println(reqBody)
 	resp, err := http.Post(consts.GetTenantToken, "application/json", bytes.NewBuffer(reqBody))
 	if err != nil {
 		log.Fatalf("request feishu tenant_access_token error: %v", err)
