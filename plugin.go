@@ -35,10 +35,12 @@ type (
 		PullRequestTitle string
 		Status           string
 		Link             string
-		Started          int64
-		Created          int64
+		Started          string
+		Created          string
 		Finished         int64
 		CostTime         int64
+		FailedStages     string
+		FailedSteps      string
 	}
 
 	CommitAuthor struct {
@@ -90,12 +92,14 @@ func (p Plugin) Exec() error {
 	}
 
 	var filePath string
-	if p.Build.Pull == "" {
+	if p.Build.Event == "push" {
 		if p.Build.Status == "success" {
 			filePath = "template/compile_success.json"
 		} else {
 			filePath = "template/compile_failure.json"
 		}
+	} else if p.Build.Event == "pull_request" {
+
 	}
 
 	file, err := os.ReadFile(filePath)

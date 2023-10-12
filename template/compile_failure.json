@@ -8,14 +8,14 @@
         {
           "is_short": true,
           "text": {
-            "content": "**构建时间**\n${build_time}",
+            "content": "**构建时间**\n{{ .Build.Started }}",
             "tag": "lark_md"
           }
         },
         {
           "is_short": true,
           "text": {
-            "content": "**仓库地址**\n[${repo_name}](${repo_url})\n",
+            "content": "**仓库地址**\n[{{ .Repo.Owner}}/{{ .Repo.Name }}]({{ .Repo.Url }})\n",
             "tag": "lark_md"
           }
         }
@@ -24,7 +24,7 @@
     },
     {
       "tag": "markdown",
-      "content": "👨🏻‍💻 Built by [@${commit_author}](https://github.com/${commit_author})\n🔀 构建分支: [${branch}](${repo_url}/tree/${branch})\n✅ Git Commit: [${commit}](${repo_url}/commit/${commit})\n📝 Commit message: ${commit_message}\n🛠️ 构建任务: [#${drone_build_id}](${drone_host}/${drone_repo}/${drone_build_id})\n❌ Failed stages: build\n❗️ Failed steps: build docker image"
+      "content": "👨🏻‍💻 Built by [@{{ .Build.CommitAuthor.Username }}](https://github.com/{{ .Build.CommitAuthor.Username }})\n🔀 构建分支: [{{ .Build.Branch }}]({{ .Repo.Url }}/tree/{{ .Build.Branch }})\n✅ Git Commit: [{{ .Build.Commit }}]({{ .Repo.Url }}/commit/{{ .Build.Commit }})\n📝 Commit message: {{ .Build.CommitMessage }}\n🛠️ 构建任务: [#{{ .Build.Number }}]({{ .Build.Link }})\n❌ Failed stages: {{ .Build.FailedStages }}\n🔥️ Failed steps: {{ .Build.FailedSteps }}"
     },
     {
       "tag": "hr"
@@ -42,7 +42,7 @@
   "header": {
     "template": "red",
     "title": {
-      "content": "【Drone CI】代码编译失败",
+      "content": "🚒【Drone CI】代码编译失败",
       "tag": "plain_text"
     }
   }
