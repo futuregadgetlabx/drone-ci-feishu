@@ -23,7 +23,7 @@ kind: pipeline
 type: docker
 name: ci
 steps:
-  - name: go-build
+  - name: build
     image: golang:1.21-alpine
     commands:
       - GO111MODULE=on CGO_ENABLED=0 GOOS=linux go build -a -o drone-ci-feishu .
