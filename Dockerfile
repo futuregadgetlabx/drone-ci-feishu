@@ -10,6 +10,6 @@ FROM alpine
 RUN apk update && apk add ca-certificates && rm -rf /var/cache/apk/*
 RUN apk add --no-cache tzdata
 ENV TZ=Asia/Shanghai
-COPY --from=builder /app/drone-ci-feishu /bin
+COPY --from=builder /app/drone-feishu /bin
 
-ENTRYPOINT ["/bin/drone-ci-feishu"]
+ENTRYPOINT ["/bin/drone-feishu"]
