@@ -6,9 +6,8 @@ import (
 	"github.com/urfave/cli"
 	"log"
 	"os"
+	"time"
 )
-
-const Send_Message_API = "https://open.feishu.cn/open-apis/im/v1/messages?receive_id_type=user_id"
 
 var (
 	version = "0.0.1"
@@ -157,6 +156,16 @@ func main() {
 			Usage:  "build tag",
 			EnvVar: "DRONE_TAG",
 		},
+		cli.StringFlag{
+			Name:   "build.failed.stages",
+			Usage:  "build failed stages",
+			EnvVar: "DRONE_FAILED_STAGES",
+		},
+		cli.StringFlag{
+			Name:   "build.failed.steps",
+			Usage:  "build failed steps",
+			EnvVar: "DRONE_FAILED_STEPS",
+		},
 	}
 
 	if _, err := os.Stat("/run/drone/env"); err == nil {
@@ -180,7 +189,7 @@ func run(c *cli.Context) error {
 			Number: c.Int("build.number"),
 			Event:  c.String("build.event"),
 			Status: c.String("build.status"),
-			Commit: c.String("commit.sha"),
+			Commit: c.String("commit.sha")[:8],
 			Ref:    c.String("commit.ref"),
 			Branch: c.String("commit.branch"),
 			CommitAuthor: CommitAuthor{
@@ -193,10 +202,12 @@ func run(c *cli.Context) error {
 			PullRequestTitle: c.String("commit.pull.title"),
 			CommitMessage:    c.String("commit.message"),
 			Link:             c.String("build.link"),
-			Started:          c.Int64("build.started"),
-			Created:          c.Int64("build.created"),
+			Started:          time.Unix(c.Int64("build.started"), 0).Format("2006-01-02 15:04:05"),
+			Created:          time.Unix(c.Int64("build.created"), 0).Format("2006-01-02 15:04:05"),
 			Finished:         c.Int64("build.finished"),
 			CostTime:         (c.Int64("build.finished") - c.Int64("build.started")) / 1000,
+			FailedStages:     c.String("build.failed.stages"),
+			FailedSteps:      c.String("build.failed.steps"),
 		},
 		Feishu: Feishu{
 			UserID:    c.String("user_id"),

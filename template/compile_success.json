@@ -15,7 +15,7 @@
         {
           "is_short": true,
           "text": {
-            "content": "**仓库地址**\n[{{ .Repo.Name }}]({{ .Repo.Url }})\n",
+            "content": "**仓库地址**\n[{{ .Repo.Owner}}/{{ .Repo.Name }}]({{ .Repo.Url }})\n",
             "tag": "lark_md"
           }
         }
