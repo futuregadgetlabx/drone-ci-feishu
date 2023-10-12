@@ -1,8 +1,8 @@
 kind: pipeline
 type: docker
-name: build
+name: release
 steps:
-  - name: build&push
+  - name: build and push image
     image: plugins/docker
     settings:
       repo: cruii/drone-feishu
@@ -15,19 +15,28 @@ steps:
 
 trigger:
   event:
-    - push
-  branch:
-    - main
+    - tag
 ---
 kind: pipeline
 type: docker
-name: go-build
+name: ci
 steps:
   - name: go-build
     image: golang:1.21-alpine
     commands:
       - GO111MODULE=on CGO_ENABLED=0 GOOS=linux go build -a -o drone-ci-feishu .
-
+  - name: notify
+    image: cruii/drone-feishu
+    pull: always
+    settings:
+      user_id:
+        from_secret: user_id
+      chat_id:
+        from_secret: chat_id
+      app_id:
+        from_secret: app_id
+      app_secret:
+        from_secret: app_secret
 trigger:
   event:
     include:
