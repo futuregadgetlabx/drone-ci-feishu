@@ -26,16 +26,13 @@ steps:
   - name: go-build
     image: golang:1.21-alpine
     commands:
-    - GO111MODULE=on CGO_ENABLED=0 GOOS=linux go build -a -o drone-ci-feishu .
+      - GO111MODULE=on CGO_ENABLED=0 GOOS=linux go build -a -o drone-ci-feishu .
 
 trigger:
   event:
     include:
-    - push
-    - pull_request
+      - push
+      - pull_request
   branch:
-    - feat/*
-    - feature/*
-    - fix/*
-    - fixbug/*
-    - hotfix/*
+    exclude:
+      - main
