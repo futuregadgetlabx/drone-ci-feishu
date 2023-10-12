@@ -42,6 +42,3 @@ trigger:
     include:
       - push
       - pull_request
-  branch:
-    exclude:
-      - main
