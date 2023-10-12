@@ -41,6 +41,8 @@ type (
 		CostTime         int64
 		FailedStages     string
 		FailedSteps      string
+		SourceBranch     string
+		TargetBranch     string
 	}
 
 	CommitAuthor struct {

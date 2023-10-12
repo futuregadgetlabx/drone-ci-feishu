@@ -1,0 +1,76 @@
+{
+  "config": {
+    "wide_screen_mode": true
+  },
+  "elements": [
+    {
+      "fields": [
+        {
+          "is_short": true,
+          "text": {
+            "content": "**构建时间**\n{{ .Build.Started }}",
+            "tag": "lark_md"
+          }
+        },
+        {
+          "is_short": true,
+          "text": {
+            "content": "**仓库地址**\n[{{ .Repo.Owner}}/{{ .Repo.Name }}]({{ .Repo.Url }})\n",
+            "tag": "lark_md"
+          }
+        }
+      ],
+      "tag": "div"
+    },
+    {
+      "tag": "markdown",
+      "content": "👨🏻‍💻 **Built by** [@{{ .Build.CommitAuthor.Username }}](https://github.com/{{ .Build.CommitAuthor.Username }})\n📌 **Pull Request**: \n{{ .Build.SourceBranch }} ➡️ {{ .Build.TargetBranch }}\n[{{ .Build.Pull }}]({{ .Repo.Url }}/pull/{{ .Build.Pull }}) {{ .Build.Pull.Title }}\n🖇️ **Commit**: [{{ .Build.Commit }}]({{ .Repo.Url }}/commit/{{ .Build.Commit }})\n📝 **Commit message**: {{ .Build.CommitMessage }}\n🛠️ **构建任务**: [#{{ .Build.Number }}]({{ .Build.Link }})\n⏱️ **构建耗时**: {{ .Build.CostTime }}s"
+    },
+    {
+      "tag": "action",
+      "actions": [
+        {
+          "tag": "button",
+          "text": {
+            "tag": "plain_text",
+            "content": "Merge PR"
+          },
+          "type": "primary",
+          "multi_url": {
+            "url": "https://open.feishu.cn/document",
+            "pc_url": "",
+            "android_url": "",
+            "ios_url": ""
+          }
+        },
+        {
+          "tag": "button",
+          "text": {
+            "tag": "plain_text",
+            "content": "Close PR"
+          },
+          "type": "danger"
+        }
+      ]
+    },
+    {
+      "tag": "hr"
+    },
+    {
+      "elements": [
+        {
+          "content": "[来自未来ガジェット研究所](https://github.com/futuregadgetlabx)",
+          "tag": "lark_md"
+        }
+      ],
+      "tag": "note"
+    }
+  ],
+  "header": {
+    "template": "green",
+    "title": {
+      "content": "🎉【Drone CI】代码编译成功",
+      "tag": "plain_text"
+    }
+  }
+}
