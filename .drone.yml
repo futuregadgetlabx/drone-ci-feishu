@@ -30,7 +30,9 @@ steps:
 
 trigger:
   event:
+    include:
     - push
+    - pull_request
   branch:
     - feat/*
     - feature/*
