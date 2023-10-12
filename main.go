@@ -12,52 +12,7 @@ const Send_Message_API = "https://open.feishu.cn/open-apis/im/v1/messages?receiv
 
 var (
 	version = "0.0.1"
-	template       = `{"config":{"wide_screen_mode":true},"elements":[{"fields":[{"is_short":true,"text":{"content":"**构建时间**\n2023-10-11 18:11","tag":"lark_md"}},{"is_short":true,"text":{"content":"**仓库地址**\n[futuregadgetlabx/ohmyhelper-fe](https://github.com/futuregadgetlabx/ohmyhelper-fe)\n","tag":"lark_md"}}],"tag":"div"},{"tag":"markdown","content":"👨🏻\u200d💻 提交人: <at id=cruii></at>\n✅ Git Commit: [f421355](https://github.com/futuregadgetlabx/ohmyhelper-fe/commit/f421355)\n🛠️ 构建任务: [](https://drone.company.com/octocat/hello-world/42)\n✉️ PR Title: Update .drone.yml\n⏱️ 构建耗时: 128s"},{"tag":"action","actions":[{"tag":"button","text":{"tag":"plain_text","content":"部署上线"},"type":"primary","multi_url":{"url":"futuregadgetlabx.com","pc_url":"","android_url":"","ios_url":""}},{"tag":"button","text":{"tag":"plain_text","content":"我已知悉"},"type":"default"}]},{"tag":"hr"},{"elements":[{"content":"[来自未来ガジェット研究所](hhttps://github.com/futuregadgetlabx)","tag":"lark_md"}],"tag":"note"}],"header":{"template":"green","title":{"content":"【Drone CI】代码编译构建成功","tag":"plain_text"}}}`
 )
-
-func run(c *cli.Context) error {
-	plugin := Plugin{
-		Repo: Repo{
-			Owner: c.String("repo.owner"),
-			Name:  c.String("repo.name"),
-			Url:   c.String("repo.url"),
-		},
-		Build: Build{
-			Tag:    c.String("build.tag"),
-			Number: c.Int("build.number"),
-			Parent: c.Int("build.parent"),
-			Event:  c.String("build.event"),
-			Status: c.String("build.status"),
-			Commit: c.String("commit.sha"),
-			Ref:    c.String("commit.ref"),
-			Branch: c.String("commit.branch"),
-			Author: Author{
-				Username: c.String("commit.author"),
-				Name:     c.String("commit.author.name"),
-				Email:    c.String("commit.author.email"),
-				Avatar:   c.String("commit.author.avatar"),
-			},
-			Pull:     c.String("commit.pull"),
-			Message:  newCommitMessage(c.String("commit.message")),
-			DeployTo: c.String("build.deployTo"),
-			Link:     c.String("build.link"),
-			Started:  c.Int64("build.started"),
-			Created:  c.Int64("build.created"),
-		},
-		Feishu: Feishu{
-			UserID:    c.String("user_id"),
-			ChatID:    c.String("chat_id"),
-			AppID:     c.String("app_id"),
-			AppSecret: c.String("app_secret"),
-		},
-	}
-	if plugin.Build.Commit == "" {
-		plugin.Build.Commit = "0000000000000000000000000000000000000000"
-	}
-
-	fmt.Printf("%+v", plugin)
-	return nil
-}
 
 func main() {
 	app := cli.NewApp()
@@ -115,13 +70,13 @@ func main() {
 		},
 		cli.StringFlag{
 			Name:   "commit.ref",
-			Value:  "refs/heads/master",
+			Value:  "refs/heads/main",
 			Usage:  "git commit ref",
 			EnvVar: "DRONE_COMMIT_REF",
 		},
 		cli.StringFlag{
 			Name:   "commit.branch",
-			Value:  "master",
+			Value:  "main",
 			Usage:  "git commit branch",
 			EnvVar: "DRONE_COMMIT_BRANCH",
 		},
@@ -151,6 +106,11 @@ func main() {
 			EnvVar: "DRONE_PULL_REQUEST",
 		},
 		cli.StringFlag{
+			Name:   "commit.pull.title",
+			Usage:  "git pull request title",
+			EnvVar: "DRONE_PULL_REQUEST_TITLE",
+		},
+		cli.StringFlag{
 			Name:   "commit.message",
 			Usage:  "commit message",
 			EnvVar: "DRONE_COMMIT_MESSAGE",
@@ -165,11 +125,6 @@ func main() {
 			Name:   "build.number",
 			Usage:  "build number",
 			EnvVar: "DRONE_BUILD_NUMBER",
-		},
-		cli.IntFlag{
-			Name:   "build.parent",
-			Usage:  "build parent",
-			EnvVar: "DRONE_BUILD_PARENT",
 		},
 		cli.StringFlag{
 			Name:   "build.status",
@@ -192,15 +147,15 @@ func main() {
 			Usage:  "build created",
 			EnvVar: "DRONE_BUILD_CREATED",
 		},
+		cli.Int64Flag{
+			Name:   "build.finished",
+			Usage:  "build finished",
+			EnvVar: "DRONE_BUILD_FINISHED",
+		},
 		cli.StringFlag{
 			Name:   "build.tag",
 			Usage:  "build tag",
 			EnvVar: "DRONE_TAG",
-		},
-		cli.StringFlag{
-			Name:   "build.deployTo",
-			Usage:  "environment deployed to",
-			EnvVar: "DRONE_DEPLOY_TO",
 		},
 	}
 
@@ -211,4 +166,48 @@ func main() {
 	if err := app.Run(os.Args); err != nil {
 		log.Fatal(err)
 	}
+}
+
+// run executes the application
+func run(c *cli.Context) error {
+	plugin := Plugin{
+		Repo: Repo{
+			Owner: c.String("repo.owner"),
+			Name:  c.String("repo.name"),
+			Url:   c.String("repo.url"),
+		},
+		Build: Build{
+			Number: c.Int("build.number"),
+			Event:  c.String("build.event"),
+			Status: c.String("build.status"),
+			Commit: c.String("commit.sha"),
+			Ref:    c.String("commit.ref"),
+			Branch: c.String("commit.branch"),
+			CommitAuthor: CommitAuthor{
+				Username: c.String("commit.author"),
+				Name:     c.String("commit.author.name"),
+				Email:    c.String("commit.author.email"),
+				Avatar:   c.String("commit.author.avatar"),
+			},
+			Pull:             c.String("commit.pull"),
+			PullRequestTitle: c.String("commit.pull.title"),
+			CommitMessage:    c.String("commit.message"),
+			Link:             c.String("build.link"),
+			Started:          c.Int64("build.started"),
+			Created:          c.Int64("build.created"),
+			Finished:         c.Int64("build.finished"),
+			CostTime:         (c.Int64("build.finished") - c.Int64("build.started")) / 1000,
+		},
+		Feishu: Feishu{
+			UserID:    c.String("user_id"),
+			ChatID:    c.String("chat_id"),
+			AppID:     c.String("app_id"),
+			AppSecret: c.String("app_secret"),
+		},
+	}
+	if plugin.Build.Commit == "" {
+		plugin.Build.Commit = "0000000000000000000000000000000000000000"
+	}
+
+	return plugin.Exec()
 }
