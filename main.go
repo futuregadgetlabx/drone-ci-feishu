@@ -166,6 +166,16 @@ func main() {
 			Usage:  "build failed steps",
 			EnvVar: "DRONE_FAILED_STEPS",
 		},
+		cli.StringFlag{
+			Name:   "build.source_branch",
+			Usage:  "build source branch",
+			EnvVar: "DRONE_SOURCE_BRANCH",
+		},
+		cli.StringFlag{
+			Name:   "build.target_branch",
+			Usage:  "build target branch",
+			EnvVar: "DRONE_TARGET_BRANCH",
+		},
 	}
 
 	if _, err := os.Stat("/run/drone/env"); err == nil {
@@ -208,6 +218,8 @@ func run(c *cli.Context) error {
 			CostTime:         (c.Int64("build.finished") - c.Int64("build.started")) / 1000,
 			FailedStages:     c.String("build.failed.stages"),
 			FailedSteps:      c.String("build.failed.steps"),
+			TargetBranch:     c.String("build.target_branch"),
+			SourceBranch:     c.String("build.source_branch"),
 		},
 		Feishu: Feishu{
 			UserID:    c.String("user_id"),

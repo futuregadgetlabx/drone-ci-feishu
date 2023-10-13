@@ -41,6 +41,8 @@ type (
 		CostTime         int64
 		FailedStages     string
 		FailedSteps      string
+		SourceBranch     string
+		TargetBranch     string
 	}
 
 	CommitAuthor struct {
@@ -100,7 +102,9 @@ func (p Plugin) Exec() error {
 			filePath = "template/compile_failure.json"
 		}
 	} else if p.Build.Event == "pull_request" {
-
+		if p.Build.Status == "success" {
+			filePath = "template/compile_pr_success.json"
+		}
 	}
 
 	file, err := os.ReadFile(filePath)
