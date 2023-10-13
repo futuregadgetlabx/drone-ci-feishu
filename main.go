@@ -188,7 +188,7 @@ func main() {
 }
 
 // run executes the application
-func run(c *cli.Context) error {
+func run(c *cli.Context) {
 	plugin := Plugin{
 		Repo: Repo{
 			Owner: c.String("repo.owner"),
@@ -232,5 +232,5 @@ func run(c *cli.Context) error {
 		plugin.Build.Commit = "0000000000000000000000000000000000000000"
 	}
 
-	return plugin.Exec()
+	plugin.Exec()
 }
