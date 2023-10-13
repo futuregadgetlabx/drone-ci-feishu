@@ -6,7 +6,6 @@ import (
 	"github.com/urfave/cli"
 	"log"
 	"os"
-	"time"
 )
 
 var (
@@ -212,10 +211,9 @@ func run(c *cli.Context) {
 			PullRequestTitle: c.String("commit.pull.title"),
 			CommitMessage:    buildCommitMessage(c.String("commit.message")),
 			Link:             c.String("build.link"),
-			Started:          time.Unix(c.Int64("build.started"), 0).Format("2006-01-02 15:04:05"),
-			Created:          time.Unix(c.Int64("build.created"), 0).Format("2006-01-02 15:04:05"),
+			Started:          c.Int64("build.started"),
+			Created:          c.Int64("build.created"),
 			Finished:         c.Int64("build.finished"),
-			CostTime:         (c.Int64("build.finished") - c.Int64("build.started")) / 1000,
 			FailedStages:     c.String("build.failed.stages"),
 			FailedSteps:      c.String("build.failed.steps"),
 			TargetBranch:     c.String("build.target_branch"),

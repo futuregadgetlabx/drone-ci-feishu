@@ -23,27 +23,30 @@ type (
 	}
 
 	Build struct {
-		Tag              string
-		Event            string
-		Number           int
-		Parent           int
-		Commit           string
-		CommitMessage    string
-		CommitAuthor     CommitAuthor
-		Ref              string
-		Branch           string
-		Pull             string
-		PullRequestTitle string
-		Status           string
-		Link             string
-		Started          string
-		Created          string
-		Finished         int64
-		CostTime         int64
-		FailedStages     string
-		FailedSteps      string
-		SourceBranch     string
-		TargetBranch     string
+		Tag               string
+		Event             string
+		Number            int
+		Parent            int
+		Commit            string
+		CommitMessage     string
+		CommitAuthor      CommitAuthor
+		Ref               string
+		Branch            string
+		Pull              string
+		PullRequestTitle  string
+		Status            string
+		Link              string
+		Started           int64
+		StartedFormatted  string
+		Created           int64
+		CreatedFormatted  string
+		Finished          int64
+		FinishedFormatted string
+		CostTime          int64
+		FailedStages      string
+		FailedSteps       string
+		SourceBranch      string
+		TargetBranch      string
 	}
 
 	CommitAuthor struct {
