@@ -12,6 +12,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 )
 
 type (
@@ -71,6 +72,14 @@ type (
 		Feishu Feishu
 	}
 )
+
+func (c CommitMessage) String() string {
+	return c.msg
+}
+
+func buildCommitMessage(m string) string {
+	return strings.ReplaceAll(m, "\n", "\\n")
+}
 
 func (p Plugin) Exec() error {
 	// Get tenant access token
