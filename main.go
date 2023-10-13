@@ -210,7 +210,7 @@ func run(c *cli.Context) error {
 			},
 			Pull:             c.String("commit.pull"),
 			PullRequestTitle: c.String("commit.pull.title"),
-			CommitMessage:    c.String("commit.message"),
+			CommitMessage:    buildCommitMessage(c.String("commit.message")),
 			Link:             c.String("build.link"),
 			Started:          time.Unix(c.Int64("build.started"), 0).Format("2006-01-02 15:04:05"),
 			Created:          time.Unix(c.Int64("build.created"), 0).Format("2006-01-02 15:04:05"),
