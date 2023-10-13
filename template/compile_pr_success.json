@@ -15,7 +15,7 @@
         {
           "is_short": true,
           "text": {
-            "content": "**仓库地址**\n[{{ .Repo.Owner}}/{{ .Repo.Name }}]({{ .Repo.Url }})\n",
+            "content": "**仓库地址**\n[{{ .Repo.Name }}]({{ .Repo.Url }})\n",
             "tag": "lark_md"
           }
         }
@@ -24,7 +24,7 @@
     },
     {
       "tag": "markdown",
-      "content": "👨🏻‍💻 **Built by** [@{{ .Build.CommitAuthor.Username }}](https://github.com/{{ .Build.CommitAuthor.Username }})\n📌 **Pull Request**: \n{{ .Build.SourceBranch }} ➡️ {{ .Build.TargetBranch }}\n[{{ .Build.Pull }}]({{ .Repo.Url }}/pull/{{ .Build.Pull }}) {{ .Build.Pull.Title }}\n🖇️ **Commit**: [{{ .Build.Commit }}]({{ .Repo.Url }}/commit/{{ .Build.Commit }})\n📝 **Commit message**: {{ .Build.CommitMessage }}\n🛠️ **构建任务**: [#{{ .Build.Number }}]({{ .Build.Link }})\n⏱️ **构建耗时**: {{ .Build.CostTime }}s"
+      "content": "👨🏻‍💻 **Built by** [@{{ .Build.CommitAuthor.Username }}](https://github.com/{{ .Build.CommitAuthor.Username }})\n📌 **Pull Request**: {{ .Build.SourceBranch }} -> {{ .Build.TargetBranch }}\n{{ .Build.PullRequestTitle }}\n🖇️ **Commit**: [{{ .Build.Commit }}]({{ .Repo.Url }}/commit/{{ .Build.Commit }})\n📝 **Commit message**: {{ .Build.CommitMessage }}\n🛠️ **构建任务**: [#{{ .Build.Number }}]({{ .Build.Link }})\n⏱️ **构建耗时**: {{ .Build.CostTime }}s"
     },
     {
       "tag": "action",
@@ -38,9 +38,23 @@
           "type": "primary",
           "multi_url": {
             "url": "https://open.feishu.cn/document",
-            "pc_url": "",
             "android_url": "",
-            "ios_url": ""
+            "ios_url": "",
+            "pc_url": ""
+          }
+        },
+        {
+          "tag": "button",
+          "text": {
+            "tag": "plain_text",
+            "content": "Code Review"
+          },
+          "type": "default",
+          "multi_url": {
+            "url": "https://open.feishu.cn/document",
+            "android_url": "",
+            "ios_url": "",
+            "pc_url": ""
           }
         },
         {
@@ -49,7 +63,13 @@
             "tag": "plain_text",
             "content": "Close PR"
           },
-          "type": "danger"
+          "type": "danger",
+          "multi_url": {
+            "url": "https://open.feishu.cn/document",
+            "android_url": "",
+            "ios_url": "",
+            "pc_url": ""
+          }
         }
       ]
     },
@@ -69,7 +89,7 @@
   "header": {
     "template": "green",
     "title": {
-      "content": "🎉【Drone CI】代码编译成功",
+      "content": "🎉【Drone CI】编译通过",
       "tag": "plain_text"
     }
   }

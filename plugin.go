@@ -73,22 +73,28 @@ type (
 	}
 )
 
-func (c CommitMessage) String() string {
-	return c.msg
+var eventStatusMap = map[string]map[string]string{
+	"push": {
+		"success": "template/compile_success.json",
+		"failure": "template/compile_failure.json",
+	},
+	"pull_request": {
+		"success": "template/compile_pr_success.json",
+		"failure": "template/compile_pr_failure.json",
+	},
 }
 
 func buildCommitMessage(m string) string {
 	return strings.ReplaceAll(m, "\n", "\\n")
 }
 
-func (p Plugin) Exec() error {
+func (p Plugin) Exec() {
 	// Get tenant access token
 	tokenReq := request.GetTokenReq{
 		AppID:     p.Feishu.AppID,
 		AppSecret: p.Feishu.AppSecret,
 	}
 	reqBody, _ := json.Marshal(tokenReq)
-	fmt.Println(reqBody)
 	resp, err := http.Post(consts.GetTenantToken, "application/json", bytes.NewBuffer(reqBody))
 	if err != nil {
 		log.Fatalf("request feishu tenant_access_token error: %v", err)
@@ -104,16 +110,12 @@ func (p Plugin) Exec() error {
 	}
 
 	var filePath string
-	if p.Build.Event == "push" {
-		if p.Build.Status == "success" {
-			filePath = "template/compile_success.json"
-		} else {
-			filePath = "template/compile_failure.json"
+	if statusMap, ok := eventStatusMap[p.Build.Event]; ok {
+		if filePath, ok = statusMap[p.Build.Status]; !ok {
+			log.Fatal("unknown status")
 		}
-	} else if p.Build.Event == "pull_request" {
-		if p.Build.Status == "success" {
-			filePath = "template/compile_pr_success.json"
-		}
+	} else {
+		log.Fatal("unknown event")
 	}
 
 	file, err := os.ReadFile(filePath)
@@ -151,15 +153,18 @@ func (p Plugin) Exec() error {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			log.Fatal(err)
+		}
+	}(resp.Body)
 	// 读取响应的内容
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		fmt.Println("读取响应失败:", err)
-		return nil
+		log.Fatal(err)
 	}
 
 	// 打印响应内容
 	fmt.Println("响应内容:", string(body))
-	return nil
 }
