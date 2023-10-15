@@ -4,7 +4,7 @@ WORKDIR /app
 ENV GOPROXY https://goproxy.cn
 COPY . .
 RUN go mod download
-RUN GO111MODULE=on CGO_ENABLED=0 GOOS=linux go build -a -o drone-ci-feishu .
+RUN GO111MODULE=on CGO_ENABLED=0 GOOS=linux go build -a -o drone-feishu .
 
 FROM alpine
 RUN apk update && apk add ca-certificates && rm -rf /var/cache/apk/*
