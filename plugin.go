@@ -13,6 +13,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 )
 
 type (
@@ -23,27 +24,30 @@ type (
 	}
 
 	Build struct {
-		Tag              string
-		Event            string
-		Number           int
-		Parent           int
-		Commit           string
-		CommitMessage    string
-		CommitAuthor     CommitAuthor
-		Ref              string
-		Branch           string
-		Pull             string
-		PullRequestTitle string
-		Status           string
-		Link             string
-		Started          string
-		Created          string
-		Finished         int64
-		CostTime         int64
-		FailedStages     string
-		FailedSteps      string
-		SourceBranch     string
-		TargetBranch     string
+		Tag               string
+		Event             string
+		Number            int
+		Parent            int
+		Commit            string
+		CommitMessage     string
+		CommitAuthor      CommitAuthor
+		Ref               string
+		Branch            string
+		Pull              string
+		PullRequestTitle  string
+		Status            string
+		Link              string
+		Started           int64
+		StartedFormatted  string
+		Created           int64
+		CreatedFormatted  string
+		Finished          int64
+		FinishedFormatted string
+		CostTime          int64
+		FailedStages      string
+		FailedSteps       string
+		SourceBranch      string
+		TargetBranch      string
 	}
 
 	CommitAuthor struct {
@@ -123,6 +127,10 @@ func (p Plugin) Exec() {
 		log.Fatal(err)
 	}
 
+	p.Build.CreatedFormatted = time.Unix(p.Build.Created, 0).Format("2006-01-02 15:04:05")
+	p.Build.StartedFormatted = time.Unix(p.Build.Started, 0).Format("2006-01-02 15:04:05")
+	p.Build.FinishedFormatted = time.Unix(p.Build.Finished, 0).Format("2006-01-02 15:04:05")
+	p.Build.CostTime = (p.Build.Finished - p.Build.Started) / 1000
 	tmpl, err := template.New("template").Parse(string(file))
 	if err != nil {
 		log.Fatal(err)
