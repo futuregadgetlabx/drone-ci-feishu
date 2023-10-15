@@ -13,6 +13,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 )
 
 type (
@@ -126,6 +127,10 @@ func (p Plugin) Exec() {
 		log.Fatal(err)
 	}
 
+	p.Build.CreatedFormatted = time.Unix(p.Build.Created, 0).Format("2006-01-02 15:04:05")
+	p.Build.StartedFormatted = time.Unix(p.Build.Started, 0).Format("2006-01-02 15:04:05")
+	p.Build.FinishedFormatted = time.Unix(p.Build.Finished, 0).Format("2006-01-02 15:04:05")
+	p.Build.CostTime = (p.Build.Finished - p.Build.Started) / 1000
 	tmpl, err := template.New("template").Parse(string(file))
 	if err != nil {
 		log.Fatal(err)
