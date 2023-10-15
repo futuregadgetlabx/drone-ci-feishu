@@ -8,14 +8,14 @@
         {
           "is_short": true,
           "text": {
-            "content": "**构建时间**\n{{ .Build.Started }}",
+            "content": "**构建时间**\n{{ .Build.StartedFormatted }}",
             "tag": "lark_md"
           }
         },
         {
           "is_short": true,
           "text": {
-            "content": "**仓库地址**\n[{{ .Repo.Owner}}/{{ .Repo.Name }}]({{ .Repo.Url }})\n",
+            "content": "**仓库地址**\n[{{ .Repo.Owner }}/{{ .Repo.Name }}]({{ .Repo.Url }})\n",
             "tag": "lark_md"
           }
         }
