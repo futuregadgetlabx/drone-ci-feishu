@@ -6,12 +6,12 @@ import (
 	"fmt"
 	"github.com/futuregadgetlabx/drone-feishu/consts"
 	"github.com/futuregadgetlabx/drone-feishu/request"
+	feishuTemplate "github.com/futuregadgetlabx/drone-feishu/template"
 	"github.com/google/uuid"
 	"html/template"
 	"io"
 	"log"
 	"net/http"
-	"os"
 	"strings"
 	"time"
 )
@@ -79,12 +79,12 @@ type (
 
 var eventStatusMap = map[string]map[string]string{
 	"push": {
-		"success": "template/compile_success.json",
-		"failure": "template/compile_failure.json",
+		"success": feishuTemplate.PUSH_SUCCESS,
+		"failure": feishuTemplate.PUSH_FAILURE,
 	},
 	"pull_request": {
-		"success": "template/compile_pr_success.json",
-		"failure": "template/compile_pr_failure.json",
+		"success": feishuTemplate.PR_SUCCESS,
+		"failure": feishuTemplate.PR_FAILURE,
 	},
 }
 
@@ -113,25 +113,20 @@ func (p Plugin) Exec() {
 		log.Fatalf("request feishu tenant_access_token error: %v", tokenResp.Msg)
 	}
 
-	var filePath string
+	var originTmpl string
 	if statusMap, ok := eventStatusMap[p.Build.Event]; ok {
-		if filePath, ok = statusMap[p.Build.Status]; !ok {
+		if originTmpl, ok = statusMap[p.Build.Status]; !ok {
 			log.Fatal("unknown status")
 		}
 	} else {
 		log.Fatal("unknown event")
 	}
 
-	file, err := os.ReadFile(filePath)
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	p.Build.CreatedFormatted = time.Unix(p.Build.Created, 0).Format("2006-01-02 15:04:05")
 	p.Build.StartedFormatted = time.Unix(p.Build.Started, 0).Format("2006-01-02 15:04:05")
 	p.Build.FinishedFormatted = time.Unix(p.Build.Finished, 0).Format("2006-01-02 15:04:05")
 	p.Build.CostTime = (p.Build.Finished - p.Build.Started) / 1000
-	tmpl, err := template.New("template").Parse(string(file))
+	tmpl, err := template.New("template").Parse(originTmpl)
 	if err != nil {
 		log.Fatal(err)
 	}
