@@ -1,5 +1,12 @@
 FROM golang:1.21-alpine AS builder
-MAINTAINER  "Cruii <cruii811@gmail.com>"
+LABEL maintainer="cruii <cruii811@gmail.com>" \
+  org.label-schema.name="drone-feishu" \
+  org.label-schema.vendor="cruii" \
+  org.label-schema.schema-version="1.0"
+
+LABEL org.opencontainers.image.source=https://github.com/futuregadgetlabx/drone-feishu
+LABEL org.opencontainers.image.description="drone-feishu"
+LABEL org.opencontainers.image.licenses=MIT
 WORKDIR /app
 ENV GOPROXY https://goproxy.cn
 COPY . .
