@@ -1,7 +1,7 @@
 package template
 
 const (
-	PUSH_SUCCESS = `
+	PushSuccess = `
 {
   "config": {
     "wide_screen_mode": true
@@ -12,14 +12,14 @@ const (
         {
           "is_short": true,
           "text": {
-            "content": "**构建时间**\n{{ .Build.StartedFormatted }}",
+            "content": "**Build Started**\n{{ .Build.StartedFormatted }}",
             "tag": "lark_md"
           }
         },
         {
           "is_short": true,
           "text": {
-            "content": "**仓库地址**\n[{{ .Repo.Owner }}/{{ .Repo.Name }}]({{ .Repo.Url }})\n",
+            "content": "**Repo**\n[{{ .Repo.Owner }}/{{ .Repo.Name }}]({{ .Repo.Url }})\n",
             "tag": "lark_md"
           }
         }
@@ -28,7 +28,7 @@ const (
     },
     {
       "tag": "markdown",
-      "content": "👨🏻‍💻 Built by [@{{ .Build.CommitAuthor.Username }}](https://github.com/{{ .Build.CommitAuthor.Username }})\n🔀 构建分支: [{{ .Build.Branch }}]({{ .Repo.Url }}/tree/{{ .Build.Branch }})\n✅ Git Commit: [{{ .Build.Commit }}]({{ .Repo.Url }}/commit/{{ .Build.Commit }})\n📝 Commit message: {{ .Build.CommitMessage }}\n🛠️ 构建任务: [#{{ .Build.Number }}]({{ .Build.Link }})\n⏱️ 构建耗时: {{ .Build.CostTime }}s"
+      "content": "👨🏻‍💻 **Built By** [@{{ .Build.CommitAuthor.Username }}](https://github.com/{{ .Build.CommitAuthor.Username }})\n🔀 **Built Branch**: [{{ .Build.Branch }}]({{ .Repo.Url }}/tree/{{ .Build.Branch }})\n🚀 **Commit**: [{{ .Build.Commit }}]({{ .Repo.Url }}/commit/{{ .Build.Commit }})\n📝 **Commit message**: \n{{ .Build.CommitMessage }}\n🛠️ **Build Details**: [#{{ .Build.Number }}]({{ .Build.Link }})\n⏱️ **Duration**: {{ .Build.CostTime }}s"
     },
     {
       "tag": "action",
@@ -37,11 +37,25 @@ const (
           "tag": "button",
           "text": {
             "tag": "plain_text",
-            "content": "部署上线"
+            "content": "Release"
           },
           "type": "primary",
           "multi_url": {
             "url": "https://open.feishu.cn/document",
+            "android_url": "",
+            "ios_url": "",
+            "pc_url": ""
+          }
+        },
+        {
+          "tag": "button",
+          "text": {
+            "tag": "plain_text",
+            "content": "See Build Details"
+          },
+          "type": "default",
+          "multi_url": {
+            "url": "{{ .Build.Link }}",
             "pc_url": "",
             "android_url": "",
             "ios_url": ""
@@ -51,86 +65,7 @@ const (
           "tag": "button",
           "text": {
             "tag": "plain_text",
-            "content": "我已知悉"
-          },
-          "type": "default"
-        }
-      ]
-    },
-    {
-      "tag": "hr"
-    },
-    {
-      "elements": [
-        {
-          "content": "[来自未来ガジェット研究所](https://github.com/futuregadgetlabx)",
-          "tag": "lark_md"
-        }
-      ],
-      "tag": "note"
-    }
-  ],
-  "header": {
-    "template": "green",
-    "title": {
-      "content": "🎉【Drone CI】代码编译成功",
-      "tag": "plain_text"
-    }
-  }
-}
-`
-
-	PR_SUCCESS = `
-{
-  "config": {
-    "wide_screen_mode": true
-  },
-  "elements": [
-    {
-      "fields": [
-        {
-          "is_short": true,
-          "text": {
-            "content": "**构建时间**\n{{ .Build.StartedFormatted }}",
-            "tag": "lark_md"
-          }
-        },
-        {
-          "is_short": true,
-          "text": {
-            "content": "**仓库地址**\n[{{ .Repo.Owner }}/{{ .Repo.Name }}]({{ .Repo.Url }})\n",
-            "tag": "lark_md"
-          }
-        }
-      ],
-      "tag": "div"
-    },
-    {
-      "tag": "markdown",
-      "content": "👨🏻‍💻 **Built by** [@{{ .Build.CommitAuthor.Username }}](https://github.com/{{ .Build.CommitAuthor.Username }})\n📌 **Pull Request**: ***{{ .Build.SourceBranch }} -> {{ .Build.TargetBranch }}***\n{{ .Build.PullRequestTitle }}\n🖇️ **Commit**: [{{ .Build.Commit }}]({{ .Repo.Url }}/commit/{{ .Build.Commit }})\n📝 **Commit message**: {{ .Build.CommitMessage }}\n🛠️ **构建任务**: [#{{ .Build.Number }}]({{ .Build.Link }})\n⏱️ **构建耗时**: {{ .Build.CostTime }}s"
-    },
-    {
-      "tag": "action",
-      "actions": [
-        {
-          "tag": "button",
-          "text": {
-            "tag": "plain_text",
-            "content": "Merge PR"
-          },
-          "type": "primary",
-          "multi_url": {
-            "url": "https://open.feishu.cn/document",
-            "android_url": "",
-            "ios_url": "",
-            "pc_url": ""
-          }
-        },
-        {
-          "tag": "button",
-          "text": {
-            "tag": "plain_text",
-            "content": "Code Review"
+            "content": "Dismiss"
           },
           "type": "default",
           "multi_url": {
@@ -139,14 +74,85 @@ const (
             "ios_url": "",
             "pc_url": ""
           }
+        }
+      ]
+    },
+    {
+      "tag": "hr"
+    },
+    {
+      "elements": [
+        {
+          "content": "[来自未来ガジェット研究所 - 电话微波炉（暂定）](https://github.com/futuregadgetlabx)\n",
+          "tag": "lark_md"
+        }
+      ],
+      "tag": "note"
+    }
+  ],
+  "header": {
+    "template": "green",
+    "title": {
+      "content": "🎉【Drone CI】编译成功",
+      "tag": "plain_text"
+    }
+  }
+}
+`
+
+	PrSuccess = `
+{
+  "config": {
+    "wide_screen_mode": true
+  },
+  "elements": [
+    {
+      "fields": [
+        {
+          "is_short": true,
+          "text": {
+            "content": "**Build Started**\n{{ .Build.Started }}",
+            "tag": "lark_md"
+          }
+        },
+        {
+          "is_short": true,
+          "text": {
+            "content": "**Repo**\n[{{ .Repo.Owner}}/{{ .Repo.Name }}]({{ .Repo.Url }})\n",
+            "tag": "lark_md"
+          }
+        }
+      ],
+      "tag": "div"
+    },
+    {
+      "tag": "markdown",
+      "content": "👨🏻‍💻 **Built By** [@{{ .Build.CommitAuthor.Username }}](https://github.com/{{ .Build.CommitAuthor.Username }})\n📌 **Pull Request**: ***{{ .Build.SourceBranch }} ➡️ {{ .Build.TargetBranch }}***\n{{ .Build.PullRequestTitle }}\n🚀 **Commit**: [{{ .Build.Commit }}]({{ .Repo.Url }}/commit/{{ .Build.Commit }})\n📝 **Commit Message**: \n{{ .Build.CommitMessage }}\n🛠️ **Build Details**: [#{{ .Build.Number }}]({{ .Build.Link }})\n⏱️ **Duration**: {{ .Build.CostTime }}s"
+    },
+    {
+      "tag": "action",
+      "actions": [
+        {
+          "tag": "button",
+          "text": {
+            "tag": "plain_text",
+            "content": "See PR Details"
+          },
+          "type": "primary",
+          "multi_url": {
+            "url": "{{ .Repo.Url }}/pull/{{ .Build.Pull }}",
+            "pc_url": "",
+            "android_url": "",
+            "ios_url": ""
+          }
         },
         {
           "tag": "button",
           "text": {
             "tag": "plain_text",
-            "content": "Close PR"
+            "content": "Dismiss"
           },
-          "type": "danger",
+          "type": "default",
           "multi_url": {
             "url": "https://open.feishu.cn/document",
             "android_url": "",
@@ -162,7 +168,7 @@ const (
     {
       "elements": [
         {
-          "content": "[来自未来ガジェット研究所](https://github.com/futuregadgetlabx)",
+          "content": "[来自未来ガジェット研究所 - 电话微波炉（暂定）](https://github.com/futuregadgetlabx)",
           "tag": "lark_md"
         }
       ],
@@ -172,14 +178,14 @@ const (
   "header": {
     "template": "green",
     "title": {
-      "content": "🎉【Drone CI】编译通过",
+      "content": "🎉【Drone CI】编译成功",
       "tag": "plain_text"
     }
   }
 }
 `
 
-	PUSH_FAILURE = `
+	PushFailure = `
 {
   "config": {
     "wide_screen_mode": true
@@ -190,14 +196,14 @@ const (
         {
           "is_short": true,
           "text": {
-            "content": "**构建时间**\n{{ .Build.StartedFormatted }}",
+            "content": "**Build Started**\n{{ .Build.StartedFormatted }}",
             "tag": "lark_md"
           }
         },
         {
           "is_short": true,
           "text": {
-            "content": "**仓库地址**\n[{{ .Repo.Owner }}/{{ .Repo.Name }}]({{ .Repo.Url }})\n",
+            "content": "**Repo**\n[{{ .Repo.Owner }}/{{ .Repo.Name }}]({{ .Repo.Url }})\n",
             "tag": "lark_md"
           }
         }
@@ -206,7 +212,54 @@ const (
     },
     {
       "tag": "markdown",
-      "content": "👨🏻‍💻 Built by [@{{ .Build.CommitAuthor.Username }}](https://github.com/{{ .Build.CommitAuthor.Username }})\n🔀 构建分支: [{{ .Build.Branch }}]({{ .Repo.Url }}/tree/{{ .Build.Branch }})\n✅ Git Commit: [{{ .Build.Commit }}]({{ .Repo.Url }}/commit/{{ .Build.Commit }})\n📝 Commit message: {{ .Build.CommitMessage }}\n🛠️ 构建任务: [#{{ .Build.Number }}]({{ .Build.Link }})\n❌ Failed stages: {{ .Build.FailedStages }}\n🔥️ Failed steps: {{ .Build.FailedSteps }}"
+      "content": "👨🏻‍💻 **Built By** [@{{ .Build.CommitAuthor.Username }}](https://github.com/{{ .Build.CommitAuthor.Username }})\n🔀 **Built Branch**: [{{ .Build.Branch }}]({{ .Repo.Url }}/tree/{{ .Build.Branch }})\n🚀 **Commit**: [{{ .Build.Commit }}]({{ .Repo.Url }}/commit/{{ .Build.Commit }})\n📝 **Commit message**: \n{{ .Build.CommitMessage }}\n🛠️ **Build Details**: [#{{ .Build.Number }}]({{ .Build.Link }})\n❌ **Failed Stages**: {{ .Build.FailedStages }}\n🔥️ **Failed Steps**: {{ .Build.FailedSteps }}"
+    },
+    {
+      "tag": "action",
+      "actions": [
+        {
+          "tag": "button",
+          "text": {
+            "tag": "plain_text",
+            "content": "See Build Details"
+          },
+          "type": "primary",
+          "multi_url": {
+            "url": "{{ .Build.Link }}",
+            "pc_url": "",
+            "android_url": "",
+            "ios_url": ""
+          }
+        },
+        {
+          "tag": "button",
+          "text": {
+            "tag": "plain_text",
+            "content": "See Commit Details"
+          },
+          "type": "default",
+          "multi_url": {
+            "url": "{{ .Repo.Url }}/commit/{{ .Build.Commit }}",
+            "pc_url": "",
+            "android_url": "",
+            "ios_url": ""
+          }
+        },
+        {
+          "tag": "button",
+          "text": {
+            "tag": "plain_text",
+            "content": "Dismiss"
+          },
+          "type": "default",
+          "multi_url": {
+            "url": "https://open.feishu.cn/document",
+            "android_url": "",
+            "ios_url": "",
+            "pc_url": ""
+          }
+        }
+      ]
     },
     {
       "tag": "hr"
@@ -214,7 +267,7 @@ const (
     {
       "elements": [
         {
-          "content": "[来自未来ガジェット研究所](https://github.com/futuregadgetlabx)",
+          "content": "[来自未来ガジェット研究所 - 电话微波炉（暂定）](https://github.com/futuregadgetlabx)",
           "tag": "lark_md"
         }
       ],
@@ -224,13 +277,109 @@ const (
   "header": {
     "template": "red",
     "title": {
-      "content": "🚒【Drone CI】代码编译失败",
+      "content": "🚒【Drone CI】编译失败",
       "tag": "plain_text"
     }
   }
 }
 `
 
-	PR_FAILURE = `
+	PrFailure = `
+{
+  "config": {
+    "wide_screen_mode": true
+  },
+  "elements": [
+    {
+      "fields": [
+        {
+          "is_short": true,
+          "text": {
+            "content": "**Build Started**\n{{ .Build.StartedFormatted }}",
+            "tag": "lark_md"
+          }
+        },
+        {
+          "is_short": true,
+          "text": {
+            "content": "**Git Repo**\n[{{ .Repo.Owner }}/{{ .Repo.Name }}]({{ .Repo.Url }})\n",
+            "tag": "lark_md"
+          }
+        }
+      ],
+      "tag": "div"
+    },
+    {
+      "tag": "markdown",
+      "content": "👨🏻‍💻 **Built By** [@{{ .Build.CommitAuthor.Username }}](https://github.com/{{ .Build.CommitAuthor.Username }})\n📌 **Pull Request**: ***{{ .Build.SourceBranch }} ➡️ {{ .Build.TargetBranch }}***\n{{ .Build.PullRequestTitle }}\n🚀 **Commit**: [{{ .Build.Commit }}]({{ .Repo.Url }}/commit/{{ .Build.Commit }})\n📝 **Commit Message**: \n{{ .Build.CommitMessage }}\n🛠️ **Build details**: [#{{ .Build.Number }}]({{ .Build.Link }})\n❌ **Failed Stages**: {{ .Build.FailedStages }}\n🔥️ **Failed Steps**: {{ .Build.FailedSteps }}"
+    },
+    {
+      "tag": "action",
+      "actions": [
+        {
+          "tag": "button",
+          "text": {
+            "tag": "plain_text",
+            "content": "See Build Details"
+          },
+          "type": "primary",
+          "multi_url": {
+            "url": "{{ .Build.Link }}",
+            "pc_url": "",
+            "android_url": "",
+            "ios_url": ""
+          }
+        },
+        {
+          "tag": "button",
+          "text": {
+            "tag": "plain_text",
+            "content": "See PR Details"
+          },
+          "type": "default",
+          "multi_url": {
+            "url": "{{ .Repo.Url }}/pull/{{ .Build.Pull }}",
+            "pc_url": "",
+            "android_url": "",
+            "ios_url": ""
+          }
+        },
+        {
+          "tag": "button",
+          "text": {
+            "tag": "plain_text",
+            "content": "Dismiss"
+          },
+          "type": "default",
+          "multi_url": {
+            "url": "https://open.feishu.cn/document",
+            "android_url": "",
+            "ios_url": "",
+            "pc_url": ""
+          }
+        }
+      ]
+    },
+    {
+      "tag": "hr"
+    },
+    {
+      "elements": [
+        {
+          "content": "[来自未来ガジェット研究所 - 电话微波炉（暂定）](https://github.com/futuregadgetlabx)",
+          "tag": "lark_md"
+        }
+      ],
+      "tag": "note"
+    }
+  ],
+  "header": {
+    "template": "red",
+    "title": {
+      "content": "🚒【Drone CI】构建失败",
+      "tag": "plain_text"
+    }
+  }
+}
 `
 )

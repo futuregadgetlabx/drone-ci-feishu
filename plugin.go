@@ -79,17 +79,18 @@ type (
 
 var eventStatusMap = map[string]map[string]string{
 	"push": {
-		"success": feishuTemplate.PUSH_SUCCESS,
-		"failure": feishuTemplate.PUSH_FAILURE,
+		"success": feishuTemplate.PushSuccess,
+		"failure": feishuTemplate.PushFailure,
 	},
 	"pull_request": {
-		"success": feishuTemplate.PR_SUCCESS,
-		"failure": feishuTemplate.PR_FAILURE,
+		"success": feishuTemplate.PrSuccess,
+		"failure": feishuTemplate.PrFailure,
 	},
 }
 
 func buildCommitMessage(m string) string {
-	return strings.ReplaceAll(m, "\n", "\\n")
+	tmp := strings.ReplaceAll(m, "\r\n", "\\n")
+	return strings.ReplaceAll(tmp, "\n", "\\n")
 }
 
 func (p Plugin) Exec() {
@@ -125,7 +126,8 @@ func (p Plugin) Exec() {
 	p.Build.CreatedFormatted = time.Unix(p.Build.Created, 0).Format("2006-01-02 15:04:05")
 	p.Build.StartedFormatted = time.Unix(p.Build.Started, 0).Format("2006-01-02 15:04:05")
 	p.Build.FinishedFormatted = time.Unix(p.Build.Finished, 0).Format("2006-01-02 15:04:05")
-	p.Build.CostTime = (p.Build.Finished - p.Build.Started) / 1000
+	// DRONE_BUILD_FINISHED 与 DRONE_BUILD_STARTED 总是相同，且原因未知所以改为计算 Created 时间
+	p.Build.CostTime = p.Build.Finished - p.Build.Started
 	tmpl, err := template.New("template").Parse(originTmpl)
 	if err != nil {
 		log.Fatal(err)
