@@ -14,20 +14,33 @@ steps:
         from_secret: docker_username
       password:
         from_secret: docker_password
-
 trigger:
   event:
     - tag
 ---
 kind: pipeline
 type: docker
-name: ci
+name: build
 steps:
   - name: build
     image: golang:1.21-alpine
     commands:
       - GO111MODULE=on CGO_ENABLED=0 GOOS=linux go build -a -o drone-feishu .
-  - name: notify
+trigger:
+  event:
+    include:
+      - push
+      - pull_request
+  branch:
+    - main
+    - dev
+
+---
+kind: pipeline
+type: docker
+name: notification
+steps:
+  - name: notification
     image: cruii/drone-feishu
     pull: always
     settings:
@@ -40,10 +53,9 @@ steps:
       app_secret:
         from_secret: app_secret
 trigger:
-  event:
-    include:
-      - push
-      - pull_request
-  branch:
-    - main
-    - dev
+  status:
+    - success
+    - failure
+depends_on:
+  - build
+  - release
