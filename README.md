@@ -6,25 +6,28 @@
 ```yaml
 kind: pipeline
 type: docker
-name: ci
+name: build
 steps:
   - name: build
     image: golang:1.21-alpine
     commands:
       - GO111MODULE=on CGO_ENABLED=0 GOOS=linux go build -a -o drone-feishu .
-  - name: notify
+  - name: notification
     image: cruii/drone-feishu
     pull: always
     settings:
       user_id:
-        # 飞书用户ID
         from_secret: user_id
+      chat_id:
+        from_secret: chat_id
       app_id:
-        #飞书机器人App ID
         from_secret: app_id
       app_secret:
-        #飞书机器人App Secret
         from_secret: app_secret
+    when:
+      status:
+        - success
+        - failure
 trigger:
   event:
     include:
