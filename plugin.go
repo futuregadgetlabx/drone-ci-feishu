@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"github.com/futuregadgetlabx/drone-feishu/consts"
 	"github.com/futuregadgetlabx/drone-feishu/request"
 	feishuTemplate "github.com/futuregadgetlabx/drone-feishu/template"
@@ -126,13 +125,11 @@ func (p Plugin) Exec() {
 	p.Build.CreatedFormatted = time.Unix(p.Build.Created, 0).Format("2006-01-02 15:04:05")
 	p.Build.StartedFormatted = time.Unix(p.Build.Started, 0).Format("2006-01-02 15:04:05")
 	p.Build.FinishedFormatted = time.Unix(p.Build.Finished, 0).Format("2006-01-02 15:04:05")
-	// DRONE_BUILD_FINISHED 与 DRONE_BUILD_STARTED 总是相同，且原因未知所以改为计算 Created 时间
 	p.Build.CostTime = p.Build.Finished - p.Build.Started
 	tmpl, err := template.New("template").Parse(originTmpl)
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("%+v\n", p)
 	var filledTemplate bytes.Buffer
 	err = tmpl.Execute(&filledTemplate, p)
 	if err != nil {
@@ -169,7 +166,5 @@ func (p Plugin) Exec() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	// 打印响应内容
-	fmt.Println("响应内容:", string(body))
+	log.Println(string(body))
 }

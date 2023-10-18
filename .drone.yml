@@ -26,20 +26,6 @@ steps:
     image: golang:1.21-alpine
     commands:
       - GO111MODULE=on CGO_ENABLED=0 GOOS=linux go build -a -o drone-feishu .
-trigger:
-  event:
-    include:
-      - push
-      - pull_request
-  branch:
-    - main
-    - dev
-
----
-kind: pipeline
-type: docker
-name: notification
-steps:
   - name: notification
     image: cruii/drone-feishu
     pull: always
@@ -52,10 +38,15 @@ steps:
         from_secret: app_id
       app_secret:
         from_secret: app_secret
+    when:
+      status:
+        - success
+        - failure
 trigger:
-  status:
-    - success
-    - failure
-depends_on:
-  - build
-  - release
+  event:
+    include:
+      - push
+      - pull_request
+  branch:
+    - main
+    - dev

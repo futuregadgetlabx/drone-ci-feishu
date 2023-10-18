@@ -111,7 +111,7 @@ const (
         {
           "is_short": true,
           "text": {
-            "content": "**Build Started**\n{{ .Build.Started }}",
+            "content": "**Build Started**\n{{ .Build.StartedFormatted }}",
             "tag": "lark_md"
           }
         },
