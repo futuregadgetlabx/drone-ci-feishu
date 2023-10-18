@@ -28,7 +28,7 @@ const (
     },
     {
       "tag": "markdown",
-      "content": "👨🏻‍💻 **Built By** [@{{ .Build.CommitAuthor.Username }}](https://github.com/{{ .Build.CommitAuthor.Username }})\n🔀 **Built Branch**: [{{ .Build.Branch }}]({{ .Repo.Url }}/tree/{{ .Build.Branch }})\n🚀 **Commit**: [{{ .Build.Commit }}]({{ .Repo.Url }}/commit/{{ .Build.Commit }})\n📝 **Commit message**: \n{{ .Build.CommitMessage }}\n🛠️ **Build Details**: [#{{ .Build.Number }}]({{ .Build.Link }})\n⏱️ **Duration**: {{ .Build.CostTime }}s"
+      "content": "👨🏻‍💻 **Built By** [@{{ .Build.CommitAuthor.Username }}](https://github.com/{{ .Build.CommitAuthor.Username }})\n🔀 **Built Branch**: [{{ .Build.Branch }}]({{ .Repo.Url }}/tree/{{ .Build.Branch }})\n🚀 **Commit**: [{{ .Build.Commit }}]({{ .Repo.Url }}/commit/{{ .Build.Commit }})\n📝 **Commit message**: \n{{ .Build.CommitMessage }}\n🛠️ **Build Details**: [#{{ .Build.Number }}]({{ .Build.Link }})"
     },
     {
       "tag": "action",
@@ -127,7 +127,7 @@ const (
     },
     {
       "tag": "markdown",
-      "content": "👨🏻‍💻 **Built By** [@{{ .Build.CommitAuthor.Username }}](https://github.com/{{ .Build.CommitAuthor.Username }})\n📌 **Pull Request**: ***{{ .Build.SourceBranch }} ➡️ {{ .Build.TargetBranch }}***\n{{ .Build.PullRequestTitle }}\n🚀 **Commit**: [{{ .Build.Commit }}]({{ .Repo.Url }}/commit/{{ .Build.Commit }})\n📝 **Commit Message**: \n{{ .Build.CommitMessage }}\n🛠️ **Build Details**: [#{{ .Build.Number }}]({{ .Build.Link }})\n⏱️ **Duration**: {{ .Build.CostTime }}s"
+      "content": "👨🏻‍💻 **Built By** [@{{ .Build.CommitAuthor.Username }}](https://github.com/{{ .Build.CommitAuthor.Username }})\n📌 **Pull Request**: ***{{ .Build.SourceBranch }} ➡️ {{ .Build.TargetBranch }}***\n{{ .Build.PullRequestTitle }}\n🚀 **Commit**: [{{ .Build.Commit }}]({{ .Repo.Url }}/commit/{{ .Build.Commit }})\n📝 **Commit Message**: \n{{ .Build.CommitMessage }}\n🛠️ **Build Details**: [#{{ .Build.Number }}]({{ .Build.Link }})"
     },
     {
       "tag": "action",
@@ -212,7 +212,7 @@ const (
     },
     {
       "tag": "markdown",
-      "content": "👨🏻‍💻 **Built By** [@{{ .Build.CommitAuthor.Username }}](https://github.com/{{ .Build.CommitAuthor.Username }})\n🔀 **Built Branch**: [{{ .Build.Branch }}]({{ .Repo.Url }}/tree/{{ .Build.Branch }})\n🚀 **Commit**: [{{ .Build.Commit }}]({{ .Repo.Url }}/commit/{{ .Build.Commit }})\n📝 **Commit message**: \n{{ .Build.CommitMessage }}\n🛠️ **Build Details**: [#{{ .Build.Number }}]({{ .Build.Link }})\n❌ **Failed Stages**: {{ .Build.FailedStages }}\n🔥️ **Failed Steps**: {{ .Build.FailedSteps }}"
+      "content": "👨🏻‍💻 **Built By** [@{{ .Build.CommitAuthor.Username }}](https://github.com/{{ .Build.CommitAuthor.Username }})\n🔀 **Built Branch**: [{{ .Build.Branch }}]({{ .Repo.Url }}/tree/{{ .Build.Branch }})\n🚀 **Commit**: [{{ .Build.Commit }}]({{ .Repo.Url }}/commit/{{ .Build.Commit }})\n📝 **Commit message**: \n{{ .Build.CommitMessage }}\n🛠️ **Build Details**: [#{{ .Build.Number }}]({{ .Build.Link }})\n🔥️ **Failed Steps**: {{ .Build.FailedSteps }}"
     },
     {
       "tag": "action",
@@ -311,7 +311,7 @@ const (
     },
     {
       "tag": "markdown",
-      "content": "👨🏻‍💻 **Built By** [@{{ .Build.CommitAuthor.Username }}](https://github.com/{{ .Build.CommitAuthor.Username }})\n📌 **Pull Request**: ***{{ .Build.SourceBranch }} ➡️ {{ .Build.TargetBranch }}***\n{{ .Build.PullRequestTitle }}\n🚀 **Commit**: [{{ .Build.Commit }}]({{ .Repo.Url }}/commit/{{ .Build.Commit }})\n📝 **Commit Message**: \n{{ .Build.CommitMessage }}\n🛠️ **Build details**: [#{{ .Build.Number }}]({{ .Build.Link }})\n❌ **Failed Stages**: {{ .Build.FailedStages }}\n🔥️ **Failed Steps**: {{ .Build.FailedSteps }}"
+      "content": "👨🏻‍💻 **Built By** [@{{ .Build.CommitAuthor.Username }}](https://github.com/{{ .Build.CommitAuthor.Username }})\n📌 **Pull Request**: ***{{ .Build.SourceBranch }} ➡️ {{ .Build.TargetBranch }}***\n{{ .Build.PullRequestTitle }}\n🚀 **Commit**: [{{ .Build.Commit }}]({{ .Repo.Url }}/commit/{{ .Build.Commit }})\n📝 **Commit Message**: \n{{ .Build.CommitMessage }}\n🛠️ **Build details**: [#{{ .Build.Number }}]({{ .Build.Link }})\n🔥️ **Failed Steps**: {{ .Build.FailedSteps }}"
     },
     {
       "tag": "action",
